@@ -1,0 +1,85 @@
+ 🧭 Virtual Browser CI/CD Pipeline
+
+This project sets up a **browser-in-browser** containerized application using [Neko](https://github.com/m1k1o/neko), with a full **CI/CD pipeline** powered by Jenkins, Docker, SonarQube, Trivy, and Docker Compose.
+
+🚀 Features
+
+- 🔍 Vulnerability scanning with Trivy (filesystem + Docker image)
+- 🧪 Code quality analysis with SonarQube
+- 🐳 Docker image build, tag, and push to Docker Hub
+- 📦 Deployment using Docker Compose
+- ✅ Automated pipeline via Jenkins
+
+📁 Project Structure
+
+. ├── .docker/ │ └── firefox/ # Dockerfile for Neko Firefox container ├── docker-compose.yaml # Compose file for deployment ├── Jenkinsfile # CI/CD pipeline definition └── README.md # You're here!
+
+
+🛠️ Setup Instructions
+
+ 1. Clone the Repository
+
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+
+2. Configure Jenkins
+Install Jenkins (Docker recommended)
+
+Install plugins: Pipeline, Docker Pipeline, SonarQube Scanner, Git
+
+Add credentials:
+
+DockerHub (docker-cred)
+
+SonarQube server (sonar)
+
+Create a Jenkins job pointing to this repo
+
+3. Pull Required Docker Images
+
+docker pull sonarqube:latest
+docker pull aquasec/trivy:latest
+docker pull nurdism/neko:firefox
+
+🧪 Pipeline Stages
+Git Checkout – Pulls latest code from GitHub
+
+Trivy Filesystem Scan – Scans source files for vulnerabilities
+
+SonarQube Analysis – Runs static code analysis
+
+Docker Build & Tag – Builds image from Dockerfile
+
+Trivy Docker Scan – Scans built image for vulnerabilities
+
+Docker Push – Pushes image to DockerHub
+
+Deploy – Uses Docker Compose to run the container
+
+🔐 Login Credentials
+By default, login is disabled for public access. To enable password protection, add these to docker-compose.yaml:
+
+environment:
+  NEKO_PASSWORD: yourpassword
+  NEKO_PASSWORD_ADMIN: youradminpassword
+
+📦 Deployment
+docker-compose down -v
+docker-compose up -d --build
+Access the app at: http://localhost:8081
+
+🧹 Cleanup
+bash
+docker image prune -f
+docker-compose down -v
+📄 License
+This project is open-source under the MIT License.
+
+🙌 Credits
+Neko
+SonarQube
+Trivy
+Jenkins
+
+
+Let me know if you want a version with badges, screenshots, or deployment to cloud platfo
